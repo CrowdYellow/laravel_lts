@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -40,5 +41,21 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('mobile.login');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string|between:4-12',
+            'password' => 'required|string|between:6-18',
+            'captcha' => 'required|captcha',
+        ],[
+            $this->username().'.required' => '用户名不能为空',
+            $this->username().'.between' => '用户名在4到12位之间',
+            'password.required' => '密码不能为空',
+            'password.between' => '密码在6到18位之间',
+            'captcha.required' => '验证码不能为空',
+            'captcha.captcha' => '请输入正确的验证码',
+        ]);
     }
 }
