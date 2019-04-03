@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -45,6 +47,18 @@ class RegisterController extends Controller
         return view('mobile.register');
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $request['ip'] = $request->getClientIp();
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -80,9 +94,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
+            'name'        => $data['name'],
+            'phone'       => $data['phone'],
+            'password'    => Hash::make($data['password']),
+            'register_ip' => $data['ip'],
+            'avatar'      => 'resources/images/user/'.mt_rand(1, 12).'.png',
         ]);
     }
 }

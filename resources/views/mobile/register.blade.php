@@ -21,12 +21,14 @@
     <h2>SIGN IN</h2>
     <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Donec auctor neque sed pretium luctus.</h3>
 </div>
-<form style="text-align: center">
+@include('shared._error')
+<form method="POST" action="{{ route('register') }}" style="text-align: center">
+    @csrf
     <input type="text" class="text" name="name" placeholder="用户名">
     <input type="text" class="text" name="phone" placeholder="手机号">
     <input type="password" name="password" placeholder="密码">
     <input type="password" name="password_confirmation" placeholder="再次输入密码">
-    <input type="text" class="text" name="captcha" placeholder="验证码">
+    <input type="text" class="text" name="captcha" placeholder="验证码" autocomplete="off">
     <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
     <input type="submit" value="注册" >
 </form>
