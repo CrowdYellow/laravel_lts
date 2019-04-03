@@ -199,17 +199,17 @@ $(document).ready(function(){
 		$('.topnavlist .popover').removeClass('show');
 		$(this).addClass('hidden');
 		$('.user_portrait img').attr('portrait_id', $('.user_portrait img').attr('ptimg'));
-		$('.user_portrait img').attr('src', 'images/user/' + $('.user_portrait img').attr('ptimg') + '.png');
+		$('.user_portrait img').attr('src', 'resources/images/user/' + $('.user_portrait img').attr('ptimg') + '.png');
 		$('.select_portrait img').removeClass('t');
 		$('.select_portrait img').eq($('.user_portrait img').attr('ptimg')-1).addClass('t');
 		$('.rooms .user_name input').val('');
 	});
 	$('.select_portrait img').hover(function() {
 		var portrait_id = $(this).attr('portrait_id');
-		$('.user_portrait img').attr('src', 'images/user/' + portrait_id + '.png');
+		$('.user_portrait img').attr('src', 'resources/images/user/' + portrait_id + '.png');
 	}, function() {
 		var t_id = $('.user_portrait img').attr('portrait_id');
-		$('.user_portrait img').attr('src', 'images/user/' + t_id + '.png');
+		$('.user_portrait img').attr('src', 'resources/images/user/' + t_id + '.png');
 	});
 	$('.select_portrait img').click(function(event) {
 		var portrait_id = $(this).attr('portrait_id');
@@ -218,10 +218,24 @@ $(document).ready(function(){
 		$(this).addClass('t');
 	});
 	$('.face_btn,.faces').hover(function() {
+		lazyLoad ();
 		$('.faces').addClass('show');
 	}, function() {
 		$('.faces').removeClass('show');
 	});
+
+	function lazyLoad ()
+	{
+		let img = $('.faces img');
+		let i,j;
+		let face;
+		for (i = 0, j = 1; i < img.length; i++, j++) {
+			face = $('#face' + j);
+			if (face.attr('src') === '') {
+				face.attr('src', face.attr('data-src'))
+			}
+		}
+	}
 	$('.faces img').click(function(event) {
 		if($(this).attr('alt')!='') {
 			$('.text input').val($('.text input').val() + '[em_' + $(this).attr('alt') + ']');
@@ -234,7 +248,7 @@ $(document).ready(function(){
 	});
 	function sends_message (userName, userPortrait, message) {
 		if(message!='') {
-			$('.main .chat_info').html($('.main .chat_info').html() + '<li class="right"><img src="images/user/' + userPortrait + '.png" alt=""><b>' + userName + '</b><i>09:15</i><div class="aaa">' + message  +'</div></li>');
+			$('.main .chat_info').html($('.main .chat_info').html() + '<li class="right"><img src="resources/images/user/' + userPortrait + '.png" alt=""><b>' + userName + '</b><i>09:15</i><div class="aaa">' + message  +'</div></li>');
 		}
 	}
 	$('.text input').keypress(function(e) { 
