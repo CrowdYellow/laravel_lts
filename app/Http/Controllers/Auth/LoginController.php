@@ -46,8 +46,8 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            $this->username() => 'required|string|between:4-12',
-            'password' => 'required|string|between:6-18',
+            $this->username() => 'required|string|between:4,12',
+            'password' => 'required|string|between:6,18',
             'captcha' => 'required|captcha',
         ],[
             $this->username().'.required' => '用户名不能为空',
@@ -57,5 +57,10 @@ class LoginController extends Controller
             'captcha.required' => '验证码不能为空',
             'captcha.captcha' => '请输入正确的验证码',
         ]);
+    }
+
+    public function username()
+    {
+        return 'name';
     }
 }

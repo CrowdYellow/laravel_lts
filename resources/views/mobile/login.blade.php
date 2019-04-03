@@ -21,6 +21,7 @@
     <h2>Welcome</h2>
     <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Donec auctor neque sed pretium luctus.</h3>
 </div>
+@include('shared._error')
 <form method="POST" action="{{ route('login') }}" style="text-align: center">
     @csrf
     <input type="text" class="text" name="name" placeholder="用户名">

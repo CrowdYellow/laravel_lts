@@ -12,6 +12,16 @@
     <script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
     <script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
 </head>
+<style>
+    .header ul.guest li{
+        margin-right: 10px;
+    }
+    .header ul.guest li a{
+        display: inline-block;
+        height: 35px;
+        line-height: 35px;
+    }
+</style>
 <body class="room">
 <div class="scrollbar-macosx">
     <div class="header">
@@ -20,90 +30,35 @@
                 <span class="glyphicon glyphicon-arrow-left"></span> 返回大厅
             </a>
         </div>
+        @guest
+        <ul class="guest" style="float: right;">
+            <li>
+                <a href="{{ route('login') }}"> 登录 </a> /
+                <a href="{{ route('register') }}"> 注册 </a>
+            </li>
+        </ul>
+        @else
         <ul class="topnavlist">
             <li class="userlist">
-                <a><span class="glyphicon glyphicon-th-list"></span>用户列表</a>
+                <a style="text-align: right;">{{ user()->name }}</a>
                 <div class="popover fade bottom in">
                     <div class="arrow"></div>
-                    <h3 class="popover-title">在线用户18人</h3>
                     <div class="popover-content scrollbar-macosx">
                         <ul>
                             <li>
                                 <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
-                            </li>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b>美国队长</b>
+                                <b onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Logout
+                                </b>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </li>
                         </ul>
                     </div>
                 </div>
             </li>
+            @endguest
         </ul>
         <div class="clapboard hidden"></div>
     </div>
