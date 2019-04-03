@@ -16,7 +16,7 @@
         text-align: center;
     }
 </style>
-<body class="login-form-1">
+<body class="login-form-1" style="margin-top: 0;">
 <div class="head-info">
     <h2>SIGN IN</h2>
     <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Donec auctor neque sed pretium luctus.</h3>

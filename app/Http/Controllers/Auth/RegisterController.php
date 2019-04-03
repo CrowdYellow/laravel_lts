@@ -40,6 +40,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('mobile.register');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -49,9 +54,20 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'     => ['required', 'string', 'between:4,12'],
+            'phone'    => ['required', 'string', 'min:11', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'captcha'  => ['required', 'captcha'],
+        ], [
+            'name.required'     => '用户名不能为空',
+            'phone.required'    => '手机号不能为空',
+            'phone.min'         => '手机号格式不对',
+            'phone.unique'      => '手机号已存在',
+            'name.between'      => '用户名在4到12位之间',
+            'password.required' => '密码不能为空',
+            'password.between'  => '密码在6到18位之间',
+            'captcha.required'  => '验证码不能为空',
+            'captcha.captcha'   => '请输入正确的验证码',
         ]);
     }
 
@@ -65,7 +81,7 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
     }
