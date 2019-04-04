@@ -193,8 +193,7 @@ $(document).ready(function () {
 	// 发送消息
 	input.focus();
 	$('#subxx').click(function () {
-		var msgid=randStr()+randStr();
-		console.log(msgid);
+
 		if (UserInfo.banned === 0) {
 			layer.open({content: 'You are banned！',skin: 'msg',time: 2000});
 			return false;
@@ -208,12 +207,11 @@ $(document).ready(function () {
 		}
 
 		str = checkMessage(str);
-		console.log(str);
 
 		//
 		if (str !== '') {
 			// sends_message(类型,昵称,头像id,聊天内容,设备类型)
-			sendMessage('sendMessage', UserInfo.name, UserInfo.avatar, str, deviceType());
+			sendMessage('sendMessage', 'All', UserInfo.name, UserInfo.avatar, str, deviceType());
 
 			// 滚动条滚到最下面
 			scroll.animate({
@@ -239,11 +237,19 @@ $(document).ready(function () {
 	 *---------------*/
 
 	// 发送消息
-	function sendMessage(type, userName, userAvatar, message, device) {
+	function sendMessage(type, toChatId, userName, userAvatar, message, device) {
+
+		var msgId = randStr()+randStr();
 
 		if (message != '') {
-
-			main.html(main.html() + '<li class="right"><img src="' + userAvatar + '" alt=""><b>' + userName + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + message  +'</div></li>');
+			var str = '{'
+				+ '"type":"' + type + '",'
+				+ '"toChatId":"' + toChatId + '",'
+				+ '"content":"' + msgId + '_+_' + message + '",'
+				+ '"device":"' + device + '",'
+				+ '}';
+			ws.send(str);
+			//main.html(main.html() + '<li class="right"><img src="' + userAvatar + '" alt=""><b>' + userName + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + message  +'</div></li>');
 		}
 	}
 
@@ -251,14 +257,16 @@ $(document).ready(function () {
 	function checkMessage(str) {
 
 		var ban = ban_msg.split("|");
+
 		for (var i = 0; i < ban.length; i++) {
 			str = str.replace(new RegExp(ban[i],'g'), '*')
 		}
+
+		str = encodeURIComponent($.trim(str));
 		str = str.replace(/\</g, '&lt;');
 		str = str.replace(/\>/g,'&gt;');
 		str = str.replace(/\n/g,'<br/>');
 		str = str.replace(/\[em_([0-9]*)\]/g,'<img src="resources/images/face/$1.gif" alt="" />');
-		str=encodeURIComponent($.trim(str));
 
 		return str;
 	}

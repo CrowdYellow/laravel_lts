@@ -20,6 +20,10 @@
 </style>
 <script>
     var ban_msg = "{{ $config->ban_msg }}";
+    var WebSocketInfo = {
+        WebSocketIP: '{{ env('INTRANET_IP') }}',
+        WebSocketPort: '{{ env('WEBSOCKET_PORT') }}',
+    };
 </script>
 @guest
 
@@ -39,6 +43,7 @@
 <script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
 <script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
 <script type="text/javascript" src="{{ asset('resources/javascripts/device.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script>
 <body class="room">
@@ -81,7 +86,7 @@
         </ul>
         <div class="clapboard hidden"></div>
     </div>
-    <div class="main container">
+    <div class="main container px-0">
         <div class="col-md-12">
             <ul class="chat_info">
                 <li class="left">
