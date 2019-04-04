@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="{{ asset('resources/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/rolling/css/rolling.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/stylesheets/style.css') }}">
-    <script type="text/javascript" src="{{ asset('resources/javascripts/jquery-1.11.2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
 </head>
 <style>
     .header ul.guest li{
@@ -22,6 +18,26 @@
         line-height: 35px;
     }
 </style>
+@guest
+
+@else
+<script>
+    let UserInfo = {
+        name: '{{ user()->name }}',
+        avatar: '{{ user()->avatar }}',
+        banned: '{{ user()->banned }}',
+        status: '{{ user()->status }}',
+        room_id: '{{ user()->room_id }}',
+        group_id: '{{ user()->group_id }}',
+    };
+</script>
+@endguest
+<script type="text/javascript" src="{{ asset('resources/javascripts/jquery-1.11.2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
+<script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
+<script type="text/javascript" src="{{ asset('resources/javascripts/device.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script>
 <body class="room">
 <div class="scrollbar-macosx">
     <div class="header">
@@ -174,12 +190,21 @@
                 </div>
             </div>
             <div class="text">
-                <div class="col-xs-10 col-sm-11">
-                    <input type="text" class="form-control" placeholder="输入聊天信息...">
-                </div>
-                <div class="col-xs-2 col-sm-1">
-                    <a id="subxx" role="button"><span class="glyphicon glyphicon-share-alt"></span></a>
-                </div>
+                @guest
+                    <div class="col-xs-10 col-sm-11">
+                        <input type="text" class="form-control" readonly placeholder="You must login before speak">
+                    </div>
+                    <div class="col-xs-2 col-sm-1">
+                        <a id="subxx" role="button" disabled=""><span class="glyphicon glyphicon-share-alt"></span></a>
+                    </div>
+                @else
+                    <div class="col-xs-10 col-sm-11">
+                        <input type="text" class="form-control" placeholder="输入聊天信息...">
+                    </div>
+                    <div class="col-xs-2 col-sm-1">
+                        <a id="subxx" role="button"><span class="glyphicon glyphicon-share-alt"></span></a>
+                    </div>
+                @endguest
             </div>
         </div>
     </div>
