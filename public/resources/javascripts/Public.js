@@ -242,12 +242,7 @@ $(document).ready(function () {
 		var msgId = randStr()+randStr();
 
 		if (message != '') {
-			var str = '{'
-				+ '"type":"' + type + '",'
-				+ '"toChatId":"' + toChatId + '",'
-				+ '"content":"' + msgId + '_+_' + message + '",'
-				+ '"device":"' + device + '",'
-				+ '}';
+			var str = '{"type":"'+type+'","toChatId":"'+toChatId+'","content":"'+msgId+'_+_'+message+'","device":"'+device+'"}';
 			ws.send(str);
 			//main.html(main.html() + '<li class="right"><img src="' + userAvatar + '" alt=""><b>' + userName + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + message  +'</div></li>');
 		}

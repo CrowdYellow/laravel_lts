@@ -26,18 +26,31 @@
     };
 </script>
 @guest
-
+    <script>
+        let UserInfo = {
+            user_id: '{{ $user_id }}',
+            name: 'tourist'+(((1+Math.random())*0x10000)|0).toString(16).substring(1),
+            avatar: '/resources/images/user'+Math.round(Math.random()*10)+'.png',
+            banned: 0,
+            status: 0,
+            room_id: 8001,
+            group_id: 0,
+            token: '{{ $token }}',
+        };
+    </script>
 @else
-<script>
-    let UserInfo = {
-        name: '{{ user()->name }}',
-        avatar: '{{ user()->avatar }}',
-        banned: '{{ user()->banned }}',
-        status: '{{ user()->status }}',
-        room_id: '{{ user()->room_id }}',
-        group_id: '{{ user()->group_id }}',
-    };
-</script>
+    <script>
+        let UserInfo = {
+            user_id: '{{ user()->id }}',
+            name: '{{ user()->name }}',
+            avatar: '{{ user()->avatar }}',
+            banned: '{{ user()->banned }}',
+            status: '{{ user()->status }}',
+            room_id: '{{ user()->room_id }}',
+            group_id: '{{ user()->group_id }}',
+            token: '{{ $token }}',
+        };
+    </script>
 @endguest
 <script type="text/javascript" src="{{ asset('resources/javascripts/jquery-1.11.2.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>

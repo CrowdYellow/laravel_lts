@@ -3,6 +3,7 @@
 namespace App\GatewayWorker;
 
 use GatewayWorker\Lib\Gateway;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class Events
@@ -25,12 +26,44 @@ class Events
 
     public static function onMessage($client_id, $message)
     {
-        $response = ['errcode' => 0, 'msg' => 'ok', 'data' => []];
         $message  = json_decode($message);
         switch ($message->type)
         {
-            case "SendMsg":
-                $response['type'] = "SendMsg";
+            case "login":
+                $token = md5($message->user_id.env('APP_KEY'));
+
+                if ($message->token != $token) {
+                    Gateway::closeCurrentClient();
+                    return;
+                }
+
+                $group = $message->room_id;
+                Gateway::joinGroup($client_id, $group);
+                Gateway::bindUid($client_id, $message->user_id);
+
+                $data['state']    = true;
+                $data['type']     = 'userLogin';
+                $data['userInfo'] = [
+                    'user_id' => $message->user_id,
+                    'name'    => $message->name,
+                ];
+
+                Gateway::sendToGroup($group, json_encode($data));
+                break;
+            case "sendMessage":
+                if (Auth::check()) {
+                    if (user()->group_id != 0) {
+                        $data['state'] = true;
+                        $data['type'] = 'userSentMessage';
+                        $data['userSentMessage'] = [
+                            'chatId'   => user()->id,
+                            'toChatId' => $message->toChatId,
+                            'content'  => $message->content,
+                            'device'   => $message->device,
+                        ];
+                    }
+                }
+                $response['type'] = "sendMessage";
                 $response['msg']  = $message->content;
                 Gateway::sendToAll(json_encode($response));
                 break;
