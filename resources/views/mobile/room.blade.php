@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Document</title>
+    <title>{{ $config->title }}</title>
     <link rel="stylesheet" href="{{ asset('resources/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/rolling/css/rolling.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/stylesheets/style.css') }}">
@@ -18,6 +18,9 @@
         line-height: 35px;
     }
 </style>
+<script>
+    var ban_msg = "{{ $config->ban_msg }}";
+</script>
 @guest
 
 @else
@@ -43,7 +46,7 @@
     <div class="header">
         <div class="toptext">
             <a href="#">
-                <span class="glyphicon glyphicon-arrow-left"></span> 返回大厅
+                <img src="{{ $config->logo }}" alt="{{ $config->title }}" height="35">
             </a>
         </div>
         @guest
@@ -103,9 +106,12 @@
         <div class="center">
             <div class="tools">
 
-                <span class="glyphicon glyphicon-heart face_btn"></span>
-                <span class="glyphicon glyphicon-picture imgFileico"></span>
+                @guest
 
+                @else
+                    <span class="glyphicon glyphicon-heart face_btn"></span>
+                    <span class="glyphicon glyphicon-picture imgFileico"></span>
+                @endguest
                 <input type="file" class="imgFileBtn hidden" accept="image/*">
                 <div class="faces popover fade top in">
                     <div class="arrow"></div>

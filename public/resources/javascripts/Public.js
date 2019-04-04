@@ -250,6 +250,10 @@ $(document).ready(function () {
 	//消息处理
 	function checkMessage(str) {
 
+		var ban = ban_msg.split("|");
+		for (var i = 0; i < ban.length; i++) {
+			str = str.replace(new RegExp(ban[i],'g'), '*')
+		}
 		str = str.replace(/\</g, '&lt;');
 		str = str.replace(/\>/g,'&gt;');
 		str = str.replace(/\n/g,'<br/>');
