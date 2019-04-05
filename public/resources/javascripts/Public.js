@@ -268,9 +268,17 @@ $(document).ready(function () {
 		if (msgContent != '') {
 			var str = '{"type":"'+type+'","room_id":"'+UserInfo.room_id+'","user_id":"'+UserInfo.user_id+'","user_name":"'+UserInfo.name+'","user_avatar":"'+UserInfo.avatar+'","group_id":"'+UserInfo.group_id+'","to_user_id":"'+toUserId+'","msg_content":"'+msgId+'_+_'+msgContent+'","user_device":"'+device+'"}';
 			ws.send(str);
-			//main.html(main.html() + '<li class="right"><img src="' + userAvatar + '" alt=""><b>' + userName + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + message  +'</div></li>');
 		}
 	}
+
+	//fasongbiaoqing
+	$('.faces img').click(function(event) {
+		if($(this).attr('alt')!='') {
+			$('.text input').val($('.text input').val() + '[em_' + $(this).attr('alt') + ']');
+		}
+		$('.faces').removeClass('show');
+		$('.text input').focus();
+	});
 
 	//消息处理
 	function checkMessage(str) {
@@ -281,11 +289,12 @@ $(document).ready(function () {
 			str = str.replace(new RegExp(ban[i],'g'), '*')
 		}
 
-		str = encodeURIComponent($.trim(str));
 		str = str.replace(/\</g, '&lt;');
 		str = str.replace(/\>/g,'&gt;');
 		str = str.replace(/\n/g,'<br/>');
 		str = str.replace(/\[em_([0-9]*)\]/g,'<img src="resources/images/face/$1.gif" alt="" />');
+
+		str = encodeURIComponent($.trim(str));
 
 		return str;
 	}
