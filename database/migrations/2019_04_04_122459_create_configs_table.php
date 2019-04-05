@@ -22,7 +22,7 @@ class CreateConfigsTable extends Migration
             $table->string('chat_bg');
             $table->string('ban_msg');
             $table->string('copyright');
-            $table->integer('state')->default(1);
+            $table->string('status')->default('T');
         });
     }
 

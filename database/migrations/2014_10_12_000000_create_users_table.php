@@ -15,9 +15,9 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 32)->unique();
+            $table->string('name')->unique();
             $table->bigInteger('phone')->unique();
-            $table->string('nickname', 32)->nullable()->unique();
+            $table->string('nickname')->nullable()->unique();
             $table->string('remarks')->nullable()->comment('备注');
             $table->string('password');
             $table->string('register_ip');
@@ -25,8 +25,8 @@ class CreateUsersTable extends Migration
             $table->integer('group_id')->default(1);
             $table->integer('integral')->default(0)->comment('积分');
             $table->integer('room_id')->default(8001)->comment('房间号');
-            $table->integer('banned')->default(0)->comment('禁言状态');
-            $table->integer('status')->default(0)->comment('用户状态');
+            $table->string('banned')->default('F')->comment('禁言状态');
+            $table->string('status')->default('T')->comment('用户状态');
             $table->timestamp('last_active_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
