@@ -21,6 +21,11 @@ $(document).ready(function () {
 	// 发送消息
 	input.focus();
 	$('#subxx').click(function () {
+		
+		if (RoomInfo.banned === 'T' && UserInfo.group_id !== 2) {
+			layer.open({content: 'You are banned！',skin: 'msg',time: 2000});
+			return false;
+		}
 
 		if (UserInfo.banned === 0) {
 			layer.open({content: 'You are banned！',skin: 'msg',time: 2000});
@@ -32,6 +37,18 @@ $(document).ready(function () {
 		if (str === '') {
 			layer.open({content: 'Please input！',skin: 'msg',time: 2000});
 			return false;
+		}
+		
+		if (str === sessionStorage.getItem('last_send_msg')) {
+			return;
+		}
+
+		var nowTime = (new Date()).getTime();
+		var endTime = parseInt(sessionStorage.getItem('last_send_msg_time')) + (parseInt(RoomInfo.time_interval) * 1000);
+
+		if (nowTime - endTime <= 0) {
+			layer.msg('Too fast!');
+			return;
 		}
 
 		str = checkMessage(str);
@@ -84,7 +101,8 @@ $(document).ready(function () {
     });
 
     // 发送消息
-	function sendMessage(type, toUserId, userName, userAvatar, msgContent, device) {
+	function sendMessage(type, toUserId, userName, userAvatar, msgContent, device)
+	{
 
 		var msgId = randStr()+randStr();
 
@@ -93,7 +111,7 @@ $(document).ready(function () {
 			ws.send(str);
 		}
 	}
-
+	
 	//发送表情
 	emImg.click(function(event) {
 		if($(this).attr('alt')!='') {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>{{ $config->title }}</title>
+    <title>{{ $room->title }}</title>
     <link rel="stylesheet" href="{{ asset('resources/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/rolling/css/rolling.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/stylesheets/style.css') }}">
@@ -19,7 +19,16 @@
     }
 </style>
 <script>
-    var ban_msg = "{{ $config->ban_msg }}";
+    var ban_msg = "{{ $room->room_ban }}";
+    var RoomInfo = {
+        'room_id': '{{ $room->room_id }}',
+        'status': '{{ $room->status }}',
+        'banned': '{{ $room->banned }}',
+        'visited_time': '{{ $room->visited_time }}',
+        'time_interval': '{{ $room->time_interval }}',
+        'logged_img_pop_up': '{{ $room->logged_img_pop_up }}',
+        'visited_img_pop_up': '{{ $room->visited_img_pop_up }}',
+    };
     var WebSocketInfo = {
         WebSocketIP: '{{ env('INTRANET_IP') }}',
         WebSocketPort: '{{ env('WEBSOCKET_PORT') }}',
@@ -64,7 +73,7 @@
     <div class="header">
         <div class="toptext">
             <a href="#">
-                <img src="{{ $config->logo }}" alt="{{ $config->title }}" height="35">
+                <img src="{{ $room->logo }}" alt="{{ $room->title }}" height="35">
             </a>
         </div>
         @guest

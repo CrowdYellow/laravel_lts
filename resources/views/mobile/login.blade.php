@@ -27,7 +27,7 @@
     <input type="text" class="text" name="name" placeholder="用户名">
     <input type="password" name="password" placeholder="密码">
     <input type="text" class="text" name="captcha" placeholder="验证码">
-    <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+    <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码" autocomplete="off">
     <input type="submit" value="登陆" >
 </form>
 @if ($errors->has('name'))
@@ -55,7 +55,7 @@
     </script>
 @endif
 <div class="password">
-    <a href="#">Password</a>   |   <a href="#">Register</a>
+    <a href="#">Password</a>   |   <a href="{{ route('register') }}">Register</a>
 </div>
 </body>
 </html>

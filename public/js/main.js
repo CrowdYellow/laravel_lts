@@ -63,7 +63,15 @@ function sendToUsers(str)
     msg              = msg.split('_+_');
     var className    = user_id === UserInfo.user_id ? 'right' : 'left';
 
+    addSession(msg[1]);
+
     return '<li class="'+className+'"><img src="' + user_avatar + '" alt=""><b>' + user_name + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + msg[1]  +'</div></li>';
+}
+
+function addSession(str)
+{
+    sessionStorage.setItem('last_send_msg', str);
+    sessionStorage.setItem('last_send_msg_time', (new Date()).getTime());
 }
 
 // 滚动条滚到最下面
