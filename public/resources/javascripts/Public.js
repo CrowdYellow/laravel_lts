@@ -180,10 +180,8 @@ $(document).ready(function () {
 	 * 聊天室内页面
 	 *---------------*/
 
-		// 参数准备
+	// 参数准备
 	var input  = $('.text input');                                              //输入框
-	var scroll = $('.scrollbar-macosx.scroll-content.scroll-scrolly_visible');  //滚动条
-	var main   = $('.main .chat_info');                                         //内容框
 
 	// 发送图片
 	$('.imgFileBtn').change(function () {
@@ -212,11 +210,6 @@ $(document).ready(function () {
 		if (str !== '') {
 			// sends_message(类型,昵称,头像id,聊天内容,设备类型)
 			sendMessage('sendMessage', 'All', UserInfo.name, UserInfo.avatar, str, deviceType());
-
-			// 滚动条滚到最下面
-			scroll.animate({
-				scrollTop: scroll.prop('scrollHeight')
-			}, 500);
 		}
 
 		input.val(''); // 清空输入框
@@ -271,7 +264,7 @@ $(document).ready(function () {
 		}
 	}
 
-	//fasongbiaoqing
+	//发送表情
 	$('.faces img').click(function(event) {
 		if($(this).attr('alt')!='') {
 			$('.text input').val($('.text input').val() + '[em_' + $(this).attr('alt') + ']');
