@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class SeedRoomsData extends Migration
 {
@@ -24,7 +25,7 @@ class SeedRoomsData extends Migration
             'visited_img_pop_up' => 'resources/images/rooms/2.jpg',
         ];
 
-        \Illuminate\Support\Facades\DB::table('rooms')->insert($rooms);
+        DB::table('rooms')->insert($rooms);
     }
 
     /**
@@ -34,6 +35,6 @@ class SeedRoomsData extends Migration
      */
     public function down()
     {
-        \Illuminate\Support\Facades\DB::truncate();
+        DB::table('rooms')->truncate();
     }
 }

@@ -4,70 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{{ $room->title }}</title>
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('resources/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/rolling/css/rolling.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/stylesheets/style.css') }}">
+    <script>
+        var ban_msg = "{{ $room->room_ban }}";
+        var RoomInfo = {
+            'room_id': '{{ $room->room_id }}',
+            'status': '{{ $room->status }}',
+            'banned': '{{ $room->banned }}',
+            'visited_time': '{{ $room->visited_time }}',
+            'time_interval': '{{ $room->time_interval }}',
+            'logged_img_pop_up': '{{ $room->logged_img_pop_up }}',
+            'visited_img_pop_up': '{{ $room->visited_img_pop_up }}',
+        };
+        var WebSocketInfo = {
+            WebSocketIP: '{{ env('INTRANET_IP') }}',
+            WebSocketPort: '{{ env('WEBSOCKET_PORT') }}',
+        };
+    </script>
+    @guest
+        <script>
+            let UserInfo = {
+                user_id: '{{ $user_id }}',
+                name: 'tourist'+(((1+Math.random())*0x10000)|0).toString(16).substring(1),
+                avatar: '/resources/images/user'+Math.round(Math.random()*10)+'.png',
+                banned: 0,
+                status: 0,
+                room_id: 8001,
+                group_id: 0,
+                token: '{{ $token }}',
+            };
+        </script>
+    @else
+        <script>
+            let UserInfo = {
+                user_id: '{{ user()->id }}',
+                name: '{{ user()->name }}',
+                avatar: '{{ user()->avatar }}',
+                banned: '{{ user()->banned }}',
+                status: '{{ user()->status }}',
+                room_id: '{{ user()->room_id }}',
+                group_id: '{{ user()->group_id }}',
+                token: '{{ $token }}',
+            };
+        </script>
+    @endguest
+    <script type="text/javascript" src="{{ asset('resources/javascripts/jquery-1.11.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('resources/javascripts/device.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script>
 </head>
-<style>
-    .header ul.guest li{
-        margin-right: 10px;
-    }
-    .header ul.guest li a{
-        display: inline-block;
-        height: 35px;
-        line-height: 35px;
-    }
-</style>
-<script>
-    var ban_msg = "{{ $room->room_ban }}";
-    var RoomInfo = {
-        'room_id': '{{ $room->room_id }}',
-        'status': '{{ $room->status }}',
-        'banned': '{{ $room->banned }}',
-        'visited_time': '{{ $room->visited_time }}',
-        'time_interval': '{{ $room->time_interval }}',
-        'logged_img_pop_up': '{{ $room->logged_img_pop_up }}',
-        'visited_img_pop_up': '{{ $room->visited_img_pop_up }}',
-    };
-    var WebSocketInfo = {
-        WebSocketIP: '{{ env('INTRANET_IP') }}',
-        WebSocketPort: '{{ env('WEBSOCKET_PORT') }}',
-    };
-</script>
-@guest
-    <script>
-        let UserInfo = {
-            user_id: '{{ $user_id }}',
-            name: 'tourist'+(((1+Math.random())*0x10000)|0).toString(16).substring(1),
-            avatar: '/resources/images/user'+Math.round(Math.random()*10)+'.png',
-            banned: 0,
-            status: 0,
-            room_id: 8001,
-            group_id: 0,
-            token: '{{ $token }}',
-        };
-    </script>
-@else
-    <script>
-        let UserInfo = {
-            user_id: '{{ user()->id }}',
-            name: '{{ user()->name }}',
-            avatar: '{{ user()->avatar }}',
-            banned: '{{ user()->banned }}',
-            status: '{{ user()->status }}',
-            room_id: '{{ user()->room_id }}',
-            group_id: '{{ user()->group_id }}',
-            token: '{{ $token }}',
-        };
-    </script>
-@endguest
-<script type="text/javascript" src="{{ asset('resources/javascripts/jquery-1.11.2.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('resources/bootstrap/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('resources/rolling/js/rolling.js') }}"></script>
-<script type="text/javascript" src="{{ asset('resources/javascripts/Public.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
-<script type="text/javascript" src="{{ asset('resources/javascripts/device.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script>
 <body class="room">
 <div class="scrollbar-macosx">
     <div class="header">

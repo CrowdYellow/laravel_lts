@@ -26,3 +26,6 @@ Route::post('register', 'Auth\RegisterController@register');
 
 //chat
 Route::get('/', 'ChatController@index');
+
+//message
+Route::resource('/messages', 'MessagesController');

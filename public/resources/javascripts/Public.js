@@ -109,6 +109,7 @@ $(document).ready(function () {
 		if (msgContent != '') {
 			var str = '{"type":"'+type+'","room_id":"'+UserInfo.room_id+'","user_id":"'+UserInfo.user_id+'","user_name":"'+UserInfo.name+'","user_avatar":"'+UserInfo.avatar+'","group_id":"'+UserInfo.group_id+'","to_user_id":"'+toUserId+'","msg_content":"'+msgId+'_+_'+msgContent+'","user_device":"'+device+'"}';
 			ws.send(str);
+            putMsgToDB(UserInfo.room_id, UserInfo.user_id, toUserId, msgContent);
 		}
 	}
 	

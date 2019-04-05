@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -99,6 +100,7 @@ class RegisterController extends Controller
             'password'    => Hash::make($data['password']),
             'register_ip' => $data['ip'],
             'avatar'      => 'resources/images/user/'.mt_rand(1, 12).'.png',
+            'api_token'   => Str::random(60),
         ]);
     }
 }
