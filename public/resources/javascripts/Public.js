@@ -236,13 +236,37 @@ $(document).ready(function () {
 	 * 业务处理
 	 *---------------*/
 
-	// 发送消息
-	function sendMessage(type, toChatId, userName, userAvatar, message, device) {
+    jQuery('.scrollbar-macosx').scrollbar();
+
+    //用户名点击事件
+    $('.topnavlist li a').click(function(event) {
+        $('.topnavlist .popover').not($(this).next('.popover')).removeClass('show');
+        $(this).next('.popover').toggleClass('show');
+        if($(this).next('.popover').attr('class')!='popover fade bottom in') {
+            $('.clapboard').removeClass('hidden');
+        }else{
+            $('.clapboard').click();
+        }
+    });
+
+    //黑幕
+    $('.clapboard').click(function(event) {
+        $('.topnavlist .popover').removeClass('show');
+        $(this).addClass('hidden');
+        $('.user_portrait img').attr('portrait_id', $('.user_portrait img').attr('ptimg'));
+        $('.user_portrait img').attr('src', 'images/user/' + $('.user_portrait img').attr('ptimg') + '.png');
+        $('.select_portrait img').removeClass('t');
+        $('.select_portrait img').eq($('.user_portrait img').attr('ptimg')-1).addClass('t');
+        $('.rooms .user_name input').val('');
+    });
+
+    // 发送消息
+	function sendMessage(type, toUserId, userName, userAvatar, msgContent, device) {
 
 		var msgId = randStr()+randStr();
 
-		if (message != '') {
-			var str = '{"type":"'+type+'","toChatId":"'+toChatId+'","content":"'+msgId+'_+_'+message+'","device":"'+device+'"}';
+		if (msgContent != '') {
+			var str = '{"type":"'+type+'","room_id":"'+UserInfo.room_id+'","user_id":"'+UserInfo.user_id+'","user_name":"'+UserInfo.name+'","user_avatar":"'+UserInfo.avatar+'","group_id":"'+UserInfo.group_id+'","to_user_id":"'+toUserId+'","msg_content":"'+msgId+'_+_'+msgContent+'","user_device":"'+device+'"}';
 			ws.send(str);
 			//main.html(main.html() + '<li class="right"><img src="' + userAvatar + '" alt=""><b>' + userName + '</b><i>'+new Date().Format("yyyy-MM-dd HH:mm:ss")+'</i><div class="aaa">' + message  +'</div></li>');
 		}
@@ -302,7 +326,7 @@ $(document).ready(function () {
 		var o = {
 			"M+": this.getMonth() + 1,                      // 月份
 			"d+": this.getDate(),                           // 日
-			"h+": this.getHours(),                          // 小时
+			"H+": this.getHours(),                          // 小时
 			"m+": this.getMinutes(),                        // 分
 			"s+": this.getSeconds(),                        // 秒
 			"q+": Math.floor((this.getMonth() + 3) / 3),  // 季度

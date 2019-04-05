@@ -32,11 +32,18 @@ class Events
             case "login":
                 $token = md5($message->user_id.env('APP_KEY'));
 
-                if ($message->token != $token) {
+                if ($message->user_token != $token) {
                     Gateway::closeCurrentClient();
                     return;
                 }
 
+                $userArr = [
+                    'user_id'     => $message->user_id,
+                    'user_name'   => $message->user_name,
+                    'user_avatar' => $message->user_avatar,
+                    'room_id'     => $message->room_id,
+                ];
+                session($userArr);
                 $group = $message->room_id;
                 Gateway::joinGroup($client_id, $group);
                 Gateway::bindUid($client_id, $message->user_id);
@@ -45,27 +52,29 @@ class Events
                 $data['type']     = 'userLogin';
                 $data['userInfo'] = [
                     'user_id' => $message->user_id,
-                    'name'    => $message->name,
+                    'name'    => $message->user_name,
                 ];
 
                 Gateway::sendToGroup($group, json_encode($data));
                 break;
             case "sendMessage":
-                if (Auth::check()) {
-                    if (user()->group_id != 0) {
-                        $data['state'] = true;
-                        $data['type'] = 'userSentMessage';
-                        $data['userSentMessage'] = [
-                            'chatId'   => user()->id,
-                            'toChatId' => $message->toChatId,
-                            'content'  => $message->content,
-                            'device'   => $message->device,
-                        ];
-                    }
+                if (session('room_id') == 0) {
+                    return ;
                 }
-                $response['type'] = "sendMessage";
-                $response['msg']  = $message->content;
-                Gateway::sendToAll(json_encode($response));
+                if ($message->group_id != 0) {
+                    $group = $message->room_id;
+                    $data['state'] = true;
+                    $data['type'] = 'userSentMessage';
+                    $data['userSentMessage'] = [
+                        'user_id'     => $message->user_id,
+                        'user_name'   => $message->user_name,
+                        'user_avatar' => $message->user_avatar,
+                        'to_user_id'  => $message->to_user_id,
+                        'msg_content' => $message->msg_content,
+                        'user_device' => $message->user_device,
+                    ];
+                    Gateway::sendToGroup($group, json_encode($data));
+                }
                 break;
         }
 

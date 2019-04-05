@@ -68,35 +68,36 @@
             </a>
         </div>
         @guest
-        <ul class="guest" style="float: right;">
-            <li>
-                <a href="{{ route('login') }}"> 登录 </a> /
-                <a href="{{ route('register') }}"> 注册 </a>
-            </li>
-        </ul>
+            <ul class="guest" style="float: right;">
+                <li>
+                    <a href="{{ route('login') }}"> 登录 </a> /
+                    <a href="{{ route('register') }}"> 注册 </a>
+                </li>
+            </ul>
         @else
-        <ul class="topnavlist">
-            <li class="userlist">
-                <a style="text-align: right;">{{ user()->name }}</a>
-                <div class="popover fade bottom in">
-                    <div class="arrow"></div>
-                    <div class="popover-content scrollbar-macosx">
-                        <ul>
-                            <li>
-                                <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
-                                <b onclick="event.preventDefault();
+            <ul class="topnavlist">
+                <li class="userlist">
+                    <a style="text-align: right;">{{ user()->name }}</a>
+                    <div class="popover fade bottom in">
+                        <div class="arrow"></div>
+                        <div class="popover-content scrollbar-macosx">
+                            <ul>
+                                <li>
+                                    <img src="{{ asset('resources/images/user/12.png') }}" alt="portrait_1">
+                                    <b onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Logout
-                                </b>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
+                                    </b>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </li>
-            @endguest
-        </ul>
+                </li>
+            </ul>
+        @endguest
+
         <div class="clapboard hidden"></div>
     </div>
     <div class="main container px-0">
