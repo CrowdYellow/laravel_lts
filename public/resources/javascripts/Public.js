@@ -15,7 +15,11 @@ $(document).ready(function () {
 
 	// 发送图片
 	$('.imgFileBtn').change(function () {
-		//
+		var formData = new FormData();
+		var file = document.querySelector(".imgFileBtn").files[0];
+		formData.append("file", file);
+		formData.append("type", 'msg');
+		uploadImg(formData);
 	});
 
 	// 发送消息
@@ -107,7 +111,17 @@ $(document).ready(function () {
 		var msgId = randStr()+randStr();
 
 		if (msgContent != '') {
-			var str = '{"type":"'+type+'","room_id":"'+UserInfo.room_id+'","user_id":"'+UserInfo.user_id+'","user_name":"'+UserInfo.name+'","user_avatar":"'+UserInfo.avatar+'","group_id":"'+UserInfo.group_id+'","to_user_id":"'+toUserId+'","msg_content":"'+msgId+'_+_'+msgContent+'","user_device":"'+device+'"}';
+			var str = '{'
+				+'"type":"'+type+'",'
+				+'"room_id":"'+UserInfo.room_id+'",'
+				+'"user_id":"'+UserInfo.user_id+'",'
+				+'"user_name":"'+UserInfo.name+'",'
+				+'"user_avatar":"'+UserInfo.avatar+'",'
+				+'"group_id":"'+UserInfo.group_id+'",'
+				+'"to_user_id":"'+toUserId.group_id+'",'
+				+'"msg_content":"'+msgId+'_+_'+msgContent+'",'
+				+'"user_device":"'+toUserId.user_device+'"'
+			+'}';
 			ws.send(str);
             putMsgToDB(UserInfo.room_id, UserInfo.user_id, toUserId, msgContent);
 		}
@@ -155,6 +169,11 @@ $(document).ready(function () {
 		}
 	}
 
+	//
+	$('.imgFileico').click(function(event) {
+		$('.imgFileBtn').click();
+	});
+
 	//获取设备
 	function deviceType()
 	{
@@ -193,5 +212,34 @@ $(document).ready(function () {
 	//随机字符串
 	function randStr () {
 		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	}
+
+	//
+	function uploadImg(formData)
+	{
+		formData.append('_token', $('meta[name="_token"]').attr('content'));
+		//
+		$.ajax({
+			url : '/upload',
+			type : 'POST',
+			data : formData,
+			// 告诉jQuery不要去处理发送的数据
+			processData : false,
+			// 告诉jQuery不要去设置Content-Type请求头
+			contentType : false,
+			beforeSend:function(){
+				console.log("正在进行，请稍候");
+			},
+			success : function(data) {
+				console.log(data);
+				if(data.status){
+					var str=encodeURIComponent('<img src="'+data.path+'">');
+					sendMessage('sendMessage', 'All', UserInfo.name, UserInfo.avatar, str, deviceType());
+				}
+			},
+			error : function(responseStr) {
+				console.log("error");
+			}
+		});
 	}
 });

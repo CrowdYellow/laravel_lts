@@ -29,3 +29,6 @@ Route::get('/', 'ChatController@index');
 
 //message
 Route::resource('/messages', 'MessagesController');
+
+//upload
+Route::post('/upload', 'UploadController@upload');

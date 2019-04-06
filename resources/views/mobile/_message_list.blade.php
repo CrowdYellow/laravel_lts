@@ -5,14 +5,14 @@
                 <img src="{{ $message->user->avatar }}" alt="{{ $message->user->name }}">
                 <b>{{ $message->user->name }}</b>
                 <i>{{ $message->created_at }}</i>
-                <div>{!! urldecode($message->msg) !!}</div>
+                <div class="aaa">{!! urldecode($message->msg) !!}</div>
             </li>
         @else
             <li class="left">
                 <img src="{{ $message->user->avatar }}" alt="{{ $message->user->name }}">
                 <b>{{ $message->user->name }}</b>
                 <i>{{ $message->created_at }}</i>
-                <div>{!! $message->msg !!}</div>
+                <div class="aaa">{!! $message->msg !!}</div>
             </li>
         @endif
     @endforeach

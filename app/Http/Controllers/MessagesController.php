@@ -27,7 +27,7 @@ class MessagesController extends Controller
 
         $data = [
             'code' => 200,
-            'msg'  => 'success',
+            'msg'  => '成功入库!',
             'data' => [],
         ];
 
