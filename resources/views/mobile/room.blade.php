@@ -6,7 +6,8 @@
     <title>{{ $room->title }}</title>
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="_token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="{{ asset('resources/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/rolling/css/rolling.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/stylesheets/style.css') }}">
