@@ -106,23 +106,7 @@
     </div>
     <div class="main container px-0">
         <div class="col-md-12">
-            <ul class="chat_info">
-                <li class="left">
-                    <img src="{{ asset('resources/images/user/12.png') }}" alt="">
-                    <b>美国队长</b>
-                    <i>09:14</i>
-                    <div>怎么没人聊天的</div>
-                </li>
-                <li class="systeminfo">
-                    <span>【绿巨人】加入了房间</span>
-                </li>
-                <li class="left">
-                    <img src="{{ asset('resources/images/user/12.png') }}" alt="">
-                    <b>美国队长</b>
-                    <i>09:15</i>
-                    <div>嗨起来！！！</div>
-                </li>
-            </ul>
+            @include('mobile._message_list')
         </div>
     </div>
     <div class="input">

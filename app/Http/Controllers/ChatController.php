@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryRecord;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +21,14 @@ class ChatController extends Controller
 
         $room = Room::where('room_id', $roomId)->first();
 
+        $messages = HistoryRecord::where('room_id', $roomId)->orderBy('created_at', 'ASC')->get();
+
         if ($room->status == 'F') {
             return 'The room closed!';
         }
 
         $token = md5($user_id.env('APP_KEY'));
 
-        return view('mobile.room', compact('room', 'token', 'user_id'));
+        return view('mobile.room', compact('room', 'token', 'user_id', 'messages'));
     }
 }
